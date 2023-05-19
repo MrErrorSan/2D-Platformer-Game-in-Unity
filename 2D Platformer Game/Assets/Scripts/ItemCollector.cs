@@ -8,7 +8,8 @@ public class ItemCollector : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("collect"))
         {
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             ScoreManager.instance.IncreaseScore();
         }
     }

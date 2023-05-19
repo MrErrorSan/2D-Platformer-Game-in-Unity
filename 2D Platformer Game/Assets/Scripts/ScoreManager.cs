@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     public Text highScoreText;
     private int highScore;
     public Text stageText;
-    private int stage = 1;
+    public int stage = 1;
 
     private void Awake()
     {
@@ -23,6 +23,10 @@ public class ScoreManager : MonoBehaviour
         UpdateHighScoreText();
         UpdateStageText();
     }
+    public int getStage()
+    {
+        return stage;
+    }
 
     public void IncreaseScore()
     {
@@ -33,11 +37,17 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseStage()
     {
         stage++;
+        if(stage == 6)
+        {
+            stage = 1;
+        }
+        score += 100; 
+        UpdateScoreText();
         UpdateStageText();
     }
     public void ResetStage()
     {
-        stage = 0;
+        stage = 1;
         UpdateStageText();
     }
 

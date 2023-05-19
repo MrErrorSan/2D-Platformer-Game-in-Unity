@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3950076271015829528}
   - component: {fileID: 3950076271015829529}
   - component: {fileID: 3950076271015829530}
-  - component: {fileID: 3368581912912807185}
+  - component: {fileID: 7200012411652701840}
   m_Layer: 0
-  m_Name: Ball
+  m_Name: Balltoleft
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3368581912912807185
+--- !u!114 &7200012411652701840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3950076271015829531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66854f9971197634a8663c15866f7726, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c17ad93f0210ed40a64b837066dde49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 18

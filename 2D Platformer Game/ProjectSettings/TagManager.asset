@@ -6,6 +6,8 @@ TagManager:
   tags:
   - collect
   - trophy
+  - Trap
+  - Ball
   layers:
   - Default
   - TransparentFX

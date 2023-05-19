@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private Animator anim;
@@ -14,71 +15,80 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 14f;
-    public GameObject snowball;
+    //public GameObject snowball;
+    public GameObject ballToRight;
+    public GameObject ballToLeft;
     public float snowballOffset = 1f;
+    public GameObject StartScreen;
+    public GameObject PlayScreen;
+    public GameObject firstStage;
+    public GameObject firstStageCollecables;
 
-    private enum MovemonetState { idle, running, jumping, falling}
-    private MovemonetState state  = MovemonetState.idle;
+    private enum MovemonetState { idle, running, jumping, falling,death}
+
+    private void Awake()
+    {
+        instance = this;
+        StartScreen.SetActive(true);
+        PlayScreen.SetActive(false);
+    }
 
     // Start is called before the first frame update
     private void Start()
     {
-        //Debug.Log("Hello Game! This is Start");
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
-
-
+        rb.bodyType = RigidbodyType2D.Static;
     }
-
-    // Update is called once per frame
     private void Update()
     {
-        dirX = Input.GetAxisRaw("Horizontal");
-        dirY = Input.GetAxisRaw("Vertical");
-        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (rb.bodyType != RigidbodyType2D.Static)
         {
-            Vector3 spawnPosition;
-            if (dirX > 0)
+            dirX = Input.GetAxisRaw("Horizontal");
+            dirY = Input.GetAxisRaw("Vertical");
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                spawnPosition = transform.position + transform.right * snowballOffset;
-                //ThrowBalls.instance.setDirection(0);
-            }
-            else if (dirX < 0)
-            {
-                spawnPosition = transform.position - transform.right * snowballOffset;
-                //ThrowBalls.instance.setDirection(1);
-            }
-            else
-            {
-                if(sprite.flipX)
+                GameObject ballPrefab;
+                Vector3 spawnPosition;
+                if (dirX > 0)
+                {
+                    spawnPosition = transform.position + transform.right * snowballOffset;
+                    ballPrefab = ballToRight;
+                }
+                else if (dirX < 0)
                 {
                     spawnPosition = transform.position - transform.right * snowballOffset;
-                    //ThrowBalls.instance.setDirection(1);
+                    ballPrefab = ballToLeft;
                 }
                 else
                 {
-                    spawnPosition = transform.position + transform.right * snowballOffset;
-                    //ThrowBalls.instance.setDirection(0);
+                    if (sprite.flipX)
+                    {
+                        spawnPosition = transform.position - transform.right * snowballOffset;
+                        ballPrefab = ballToLeft;
+                    }
+                    else
+                    {
+                        spawnPosition = transform.position + transform.right * snowballOffset;
+                        ballPrefab = ballToRight;
+                    }
                 }
-                // If the player is not moving horizontally, spawn in front of the player based on its forward direction.
-                //spawnPosition = transform.position + transform.forward * snowballOffset;
+                Instantiate(ballPrefab, spawnPosition, Quaternion.identity);
             }
 
-            Instantiate(snowball, spawnPosition, Quaternion.identity);
-        }
+            if (dirY > .7 && isGrounded())
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
 
-        //if(Input.GetButtonDown("Jump") && isGrounded())
-        if (dirY>.7 && isGrounded())
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            UpdateAnimationState();
         }
-
-        UpdateAnimationState();
     }
+
     private void UpdateAnimationState()
     {
         MovemonetState state;
@@ -108,6 +118,13 @@ public class PlayerMovement : MonoBehaviour
     private Boolean isGrounded ()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, ground);
-        //return Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, ground);
+    }
+
+    public void Play()
+    {
+        StartScreen.SetActive(false);
+        PlayScreen.SetActive(true);
+        firstStageCollecables.SetActive(true);
+        rb.bodyType = RigidbodyType2D.Dynamic;
     }
 }
