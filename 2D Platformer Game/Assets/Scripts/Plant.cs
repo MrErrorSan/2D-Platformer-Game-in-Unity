@@ -8,6 +8,7 @@ public class Plant : MonoBehaviour
     public GameObject itemToShoot;
     public float startDelay =0;
     public float spawnInterval =0;
+    [SerializeField] private AudioSource plantShootSoundEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,7 @@ public class Plant : MonoBehaviour
     }
     void Spawn()
     {
+        plantShootSoundEffect.Play();
         Instantiate(itemToShoot, (transform.position - new Vector3(1.450037f, -0.2000008f, 0)), itemToShoot.transform.rotation);
     }
 

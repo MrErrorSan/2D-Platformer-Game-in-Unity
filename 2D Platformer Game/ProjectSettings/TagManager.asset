@@ -8,6 +8,7 @@ TagManager:
   - trophy
   - Trap
   - Ball
+  - traping
   layers:
   - Default
   - TransparentFX

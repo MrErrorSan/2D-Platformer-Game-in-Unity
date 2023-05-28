@@ -6,14 +6,15 @@ public class HealthManager : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
     public static HealthManager instance;
-    public int health = 3;
+    public int health = 10;
     public Text healthText;
     public Vector3[] Respawn = {  new Vector3(1f, 1f, 1f), new Vector3(1f, 1f, 1f), new Vector3(1f, 1f, 1f), new Vector3(1f, 1f, 1f), new Vector3(1f, 1f, 1f) }; 
     public GameObject gameOverScreen;
     public GameObject gamePlayScreen;
     public GameObject Camra;
-   // public GameObject firstStageCollecables;
-    //public GameObject firstStageTraps;
+    [SerializeField] private AudioSource deathSoundEffect;
+    [SerializeField] private AudioSource gameLoseSoundEffect;
+
 
     private void Awake()
     {
@@ -44,16 +45,19 @@ public class HealthManager : MonoBehaviour
     } 
     public void ResetHealth()
     {
-        health = 3;
+        health = 10;
     }
 
     public void DecreaseHealth()
     {
+        deathSoundEffect.Play();
         health--;
         UpdateHealthText();
         transform.position= Respawn[ScoreManager.instance.getStage()-1];
         if (health <= 0)
         {
+            //gamelose sound
+            gameLoseSoundEffect.Play();
             GameOver();
         }
     }
@@ -78,6 +82,7 @@ public class HealthManager : MonoBehaviour
         Camra.transform.position = new Vector3(7.4f, -32f, -1f);
         rb.bodyType = RigidbodyType2D.Static;
         //enableFirstStage();
+        gamePlayScreen.SetActive(false);
         gameOverScreen.SetActive(true);
     }
 }

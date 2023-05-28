@@ -6,20 +6,24 @@ using UnityEngine;
 public class ThrowBallsTowardsRight : MonoBehaviour
 {
     public float speed = 4f;
+    [SerializeField] private AudioSource plantDeathSoundEffect;
 
     private void Start()
     {
+            Debug.Log("Ball throwed");
         Destroy(gameObject,1.3f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Trap"))
         {
+            plantDeathSoundEffect.Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
             ScoreManager.instance.IncreaseScore();
+            Debug.Log("Detecting the tag");
         }
-        else
+        else if (!collision.gameObject.CompareTag("collect"))
         {
             Destroy(gameObject);
         }
@@ -28,11 +32,14 @@ public class ThrowBallsTowardsRight : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
+            plantDeathSoundEffect.Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
             ScoreManager.instance.IncreaseScore();
+            Debug.Log("Detecting the tag");
+
         }
-        else
+        else if (!collision.gameObject.CompareTag("collect"))
         {
             Destroy(gameObject);
         }

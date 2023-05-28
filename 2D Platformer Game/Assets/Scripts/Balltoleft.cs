@@ -5,6 +5,8 @@ using UnityEngine;
 public class Balltoleft : MonoBehaviour
 {
     public float speed = 4f;
+    [SerializeField] private AudioSource plantDeathSoundEffect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,11 +16,12 @@ public class Balltoleft : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
+            plantDeathSoundEffect.Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
             ScoreManager.instance.IncreaseScore();
         }
-        else
+        else if(!collision.gameObject.CompareTag("collect"))
         {
             Destroy(gameObject);
         }
@@ -27,11 +30,12 @@ public class Balltoleft : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
+            plantDeathSoundEffect.Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
             ScoreManager.instance.IncreaseScore();
         }
-        else
+        else if (!collision.gameObject.CompareTag("collect"))
         {
             Destroy(gameObject);
         }

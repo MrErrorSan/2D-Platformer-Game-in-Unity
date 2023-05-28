@@ -19,6 +19,7 @@ public class TrophyCollision : MonoBehaviour
     public GameObject firstStageCollecables;
     public int isLastStage = 0;
     Rigidbody2D rb;
+    [SerializeField] private AudioSource stageSoundEffect;
 
     public void Start()
     {
@@ -26,6 +27,7 @@ public class TrophyCollision : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        stageSoundEffect.Play();
             disableCurrentStage();
             enableNextStage();
             Player.transform.position = new Vector3(nextPlayerPosition, -41.04f, 0);

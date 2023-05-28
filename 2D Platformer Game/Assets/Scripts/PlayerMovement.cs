@@ -23,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject PlayScreen;
     public GameObject firstStage;
     public GameObject firstStageCollecables;
-
+    [SerializeField] private AudioSource jumpSoundEffect;
+    [SerializeField] private AudioSource ballSoundEffect;
     private enum MovemonetState { idle, running, jumping, falling,death}
 
     private void Awake()
@@ -52,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                ballSoundEffect.Play();
                 GameObject ballPrefab;
                 Vector3 spawnPosition;
                 if (dirX > 0)
@@ -82,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (dirY > .7 && isGrounded())
             {
+                jumpSoundEffect.Play();
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
 
